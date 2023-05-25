@@ -1,54 +1,60 @@
 package sn.niit.restauranManagementApplication.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "line_items")
-public class LineItem
-{
+public class LineItem {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	    @ManyToOne(fetch = FetchType.EAGER)
-	    private Produit produit;
-	    private int quantite;
-		@Temporal(TemporalType.DATE)
-		private Date date;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "productId", referencedColumnName = "productId")
+	private Product product;
 
-	    public LineItem() {}
-	    
-	    public LineItem(Produit produit, int quantite)
-	    {
-	        this.produit = produit;
-	        this.quantite= quantite;
+	@NotNull
+	private int quantite;
 
-	    }
+	@Temporal(TemporalType.DATE)
+	private Date date;
 
-		public long getId() {
-			return id;
-		}
+	public LineItem() {
+	}
 
-		public void setId(long id) {
-			this.id = id;
-		}public Produit getProduit() {
-			return produit;
-		}
+	public LineItem(Product product, int quantite) {
+		this.product = product;
+		this.quantite = quantite;
 
-		public void setProduit(Produit produit) {
-			this.produit = produit;
-		}
+	}
 
-		public int getQuantite() {
-			return quantite;
-		}
+	public long getId() {
+		return id;
+	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
 
-		public void setQuantite(int quantite) {
-			this.quantite = quantite;
-		}
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product produit) {
+		this.product = produit;
+	}
+
+	public int getQuantite() {
+		return quantite;
+	}
+
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
 
 	public Date getDate() {
 		return date;
@@ -60,8 +66,10 @@ public class LineItem
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		LineItem lineItem = (LineItem) o;
 		return id == lineItem.id;
 	}
@@ -71,7 +79,3 @@ public class LineItem
 		return Objects.hash(id);
 	}
 }
-
-
-
-	    

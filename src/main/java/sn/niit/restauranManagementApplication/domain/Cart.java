@@ -12,7 +12,7 @@ import java.util.Date;
 public class Cart implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long carIid;
+    private Long cartId;
 
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -39,11 +39,11 @@ public class Cart implements Serializable {
     }
 
     public Long getId() {
-        return carIid;
+        return cartId;
     }
 
     public void setId(Long id) {
-        this.carIid = id;
+        this.cartId = id;
     }
 
     public Date getDate() {
@@ -57,7 +57,7 @@ public class Cart implements Serializable {
     public Double getTotalPrice() {
         Double sum = 0.0;
         for (LineItem item : this.items) {
-            sum = sum + item.getProduit().getPrice();
+            sum = sum + item.getProduct().getPrice();
         }
         return sum;
     }
@@ -90,12 +90,12 @@ public class Cart implements Serializable {
         this.active = active;
     }
 
-    public Long getCarIid() {
-        return carIid;
+    public Long getCartId() {
+        return cartId;
     }
 
-    public void setCarIid(Long carIid) {
-        this.carIid = carIid;
+    public void setCartId(Long cartId) {
+        this.cartId = cartId;
     }
 
     public User getUser() {

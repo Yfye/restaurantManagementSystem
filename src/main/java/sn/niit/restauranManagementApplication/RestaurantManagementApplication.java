@@ -5,14 +5,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import sn.niit.restauranManagementApplication.domain.Categorie;
-import sn.niit.restauranManagementApplication.serviceImpl.CategorieServiceImpl;
+import sn.niit.restauranManagementApplication.domain.Category;
+import sn.niit.restauranManagementApplication.domain.Product;
+import sn.niit.restauranManagementApplication.serviceImpl.CategoryServiceImpl;
+import sn.niit.restauranManagementApplication.serviceImpl.ProductServiceImpl;
 
 @SpringBootApplication
 public class RestaurantManagementApplication implements CommandLineRunner {
 
 	@Autowired
-	private CategorieServiceImpl categorieServiceImpl;
+	private CategoryServiceImpl categoryServiceImpl;
+	@Autowired
+	private ProductServiceImpl productServiceImpl;
 
 	public static void main(String[] args) {
 		SpringApplication.run(RestaurantManagementApplication.class, args);
@@ -20,24 +24,52 @@ public class RestaurantManagementApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		categorieServiceImpl
-				.saveOrUpdateCategorie(new Categorie("Desserts", "Description for Desserts", "menu-4-370x278.jpg",
+		// Categories
+		categoryServiceImpl
+				.saveOrUpdateCategory(new Category("Desserts", "Description for Desserts", "menu-4-370x278.jpg",
 						"linearicons-ice-cream"));
-		categorieServiceImpl
-				.saveOrUpdateCategorie(
-						new Categorie("Pizzas", "Description for Pizzas", "menu-2-370x278.jpeg", "linearicons-pizza"));
-		categorieServiceImpl
-				.saveOrUpdateCategorie(
-						new Categorie("Salades", "Description for Salades", "menu-1-370x278.png", "linearicons-leaf"));
-		categorieServiceImpl
-				.saveOrUpdateCategorie(new Categorie("Burgers", "Description for Burgers", "menu-3-370x278.jpg",
+		categoryServiceImpl
+				.saveOrUpdateCategory(
+						new Category("Pizzas", "Description for Pizzas", "menu-2-370x278.jpeg", "linearicons-pizza"));
+		categoryServiceImpl
+				.saveOrUpdateCategory(
+						new Category("Salades", "Description for Salades", "menu-1-370x278.png", "linearicons-leaf"));
+		categoryServiceImpl
+				.saveOrUpdateCategory(new Category("Hamburgers", "Description for Burgers", "menu-3-370x278.jpg",
 						"linearicons-hamburger"));
-		categorieServiceImpl
-				.saveOrUpdateCategorie(new Categorie("Boissons", "Description for Boissons", "menu-5-370x278.jpg",
+		categoryServiceImpl
+				.saveOrUpdateCategory(new Category("Boissons", "Description for Boissons", "menu-5-370x278.jpg",
 						"linearicons-coffee-cup"));
-		categorieServiceImpl
-				.saveOrUpdateCategorie(
-						new Categorie("Dishes", "Description for Dishes", "menu-6-370x278.png", "linearicons-steak"));
+		categoryServiceImpl
+				.saveOrUpdateCategory(
+						new Category("Plats", "Description for Plats", "menu-6-370x278.png", "linearicons-steak"));
+
+		Category saladCategory = categoryServiceImpl.findByCategoryName("Salades");
+		Category pizzaCategory = categoryServiceImpl.findByCategoryName("Pizzas");
+
+		// Salad fake products
+		productServiceImpl.saveOrUpdateProduct(new Product("Salade 1", "Description for Salad 1", 0.0,
+				"blank_product.png", saladCategory));
+		productServiceImpl.saveOrUpdateProduct(new Product("Salade 2", "Descriptionfor Salad 2", 0.0,
+				"blank_product.png",
+				categoryServiceImpl.findByCategoryName("Salades")));
+		productServiceImpl.saveOrUpdateProduct(new Product("Salade 3", "Description for Salad 3", 0.0,
+				"blank_product.png",
+				categoryServiceImpl.findByCategoryName("Salades")));
+
+		// Pizzas fake products
+		// productServiceImpl.saveOrUpdateProduct(new Product("Pizza 1", "Description
+		// for Pizza 1", 0.0,
+		// "blank_product.png",
+		// categoryServiceImpl.findByCategoryName("Pizzas")));
+		// productServiceImpl.saveOrUpdateProduct(new Product("Pizza 2", "Description
+		// for Pizza 2", 0.0,
+		// "blank_product.png",
+		// categoryServiceImpl.findByCategoryName("Pizzas")));
+		// productServiceImpl.saveOrUpdateProduct(new Product("Pizza 3", "Description
+		// for Pizza 3", 0.0,
+		// "blank_product.png",
+		// categoryServiceImpl.findByCategoryName("Pizzas")));
 	}
 
 }

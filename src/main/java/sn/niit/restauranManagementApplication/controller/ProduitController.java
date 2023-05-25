@@ -15,92 +15,77 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import sn.niit.restauranManagementApplication.domain.Categorie;
-import sn.niit.restauranManagementApplication.domain.Produit;
-import sn.niit.restauranManagementApplication.service.CategorieService;
+import sn.niit.restauranManagementApplication.domain.Category;
+import sn.niit.restauranManagementApplication.domain.Product;
+import sn.niit.restauranManagementApplication.service.CategoryService;
 import sn.niit.restauranManagementApplication.service.OrderService;
-import sn.niit.restauranManagementApplication.service.ProduitService;
+import sn.niit.restauranManagementApplication.service.ProductService;
 
 @Controller
 @RequestMapping("/produit")
-public class ProduitController 
-{
-	    @Autowired 
-	    ProduitService produitService;
-	    OrderService ordertService;
-	    @Autowired
-	    CategorieService categorieService;
+public class ProduitController {
+	@Autowired
+	ProductService produitService;
+	OrderService ordertService;
+	@Autowired
+	CategoryService categorieService;
 
 	@GetMapping("/list")
-	public String showAllProduit(Model model,String keyword)
-	{
-		if(keyword!=null)
-		{
-			List<Produit> listProduit = produitService.getByKeyword(keyword);
+	public String showAllProduit(Model model, String keyword) {
+		if (keyword != null) {
+			List<Product> listProduit = produitService.findProductsByKeyword(keyword);
 			model.addAttribute("listProduit", listProduit);
-		}else
-		{
-			List<Produit> listProduit = produitService.getAllProduit();
+		} else {
+			List<Product> listProduit = produitService.getProducts();
 			model.addAttribute("listProduit", listProduit);
 		}
 
 		return showPaginatedPage(1, model);
 	}
-		
-		@GetMapping("/new")
-		public String showForm(Produit produit,  Model model)
-		{
-			model.addAttribute("categories", categorieService.getAllCategorie());
-			return"admin/produit-new";
-		}
-		
-		@PostMapping("/save")
-		public String saveOrUpdate( @Valid Produit produit,BindingResult bindindResult )
-		{
-			if(bindindResult.hasErrors()) 
-			{
-				return "admin/produit-new";
-			}
-			else
-		   {
 
+	@GetMapping("/new")
+	public String showForm(Product produit, Model model) {
+		model.addAttribute("categories", categorieService.getCategories());
+		return "admin/produit-new";
+	}
 
-			produitService.saveOrUpdateProduit(produit);
-			return "redirect:/produit/list";
-			}
-		    
-	    }
-		
-		@GetMapping("/edit/{id}")
-		public String showEditForm(@PathVariable("id") Long id ,Model model) 
-		{
-			model.addAttribute("produit", produitService.getProduitById(id));
-			model.addAttribute("categorie", categorieService.getAllCategorie());
-			
-			return "admin/produit-edit";
-		}
-		
-		@PostMapping("/update/{id}")
-		public String SaveOrUpdateProduct(@PathVariable("id") Long id, Produit produit)
-		{
-			produitService.saveOrUpdateProduit(produit);
+	@PostMapping("/save")
+	public String saveOrUpdate(@Valid Product produit, BindingResult bindindResult) {
+		if (bindindResult.hasErrors()) {
+			return "admin/produit-new";
+		} else {
+
+			produitService.saveOrUpdateProduct(produit);
 			return "redirect:/produit/list";
 		}
-		
-		@GetMapping("/delete/{id}")
-		public String deleteProduit(@PathVariable("id") Long id) 
-		{
-			produitService.deleteProduit(id);
-			return "redirect:/produit/list";
-		}
+
+	}
+
+	@GetMapping("/edit/{id}")
+	public String showEditForm(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("produit", produitService.findById(id));
+		model.addAttribute("categorie", categorieService.getCategories());
+
+		return "admin/produit-edit";
+	}
+
+	@PostMapping("/update/{id}")
+	public String SaveOrUpdateProduct(@PathVariable("id") Long id, Product produit) {
+		produitService.saveOrUpdateProduct(produit);
+		return "redirect:/produit/list";
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteProduit(@PathVariable("id") Long id) {
+		produitService.deleteProduit(id);
+		return "redirect:/produit/list";
+	}
 
 	@GetMapping("/list/page/{pageNumber}")
-	public String
-	showPaginatedPage(@PathVariable("pageNumber") int pageNumber, Model model)
-	{
-		int pageSize=5;
-		Page<Produit> page = produitService.findPaginated(pageNumber,pageSize);
-		List<Produit>  produitList = page.getContent();
+	public String showPaginatedPage(@PathVariable("pageNumber") int pageNumber, Model model) {
+		int pageSize = 5;
+		Page<Product> page = produitService.findPaginated(pageNumber, pageSize);
+		List<Product> produitList = page.getContent();
 
 		model.addAttribute("pageCourente", pageNumber);
 		model.addAttribute("totalPages", page.getTotalPages());
