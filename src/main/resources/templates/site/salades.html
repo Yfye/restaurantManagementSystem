@@ -81,7 +81,7 @@
           </div>
           <div class="rd-navbar-project">
             <div class="rd-navbar-project-header">
-              <h5 class="rd-navbar-project-title">Gallery</h5>
+              <h5 class="rd-navbar-project-title">My Cart</h5>
               <div class="rd-navbar-project-hamburger rd-navbar-project-hamburger-close" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
                 <div class="project-close"><span></span><span></span></div>
               </div>
@@ -89,53 +89,24 @@
             <div class="rd-navbar-project-content rd-navbar-content">
               <div>
                 <div class="row gutters-20" data-lightgallery="group">
-                  <div class="col-6">
+                  <div class="col-12 m-3">
                     <!-- Thumbnail Creative-->
-                    <article class="thumbnail thumbnail-creative"><a th:href="@{/site/images/project-1-1200x800-original.jpg}" data-lightgallery="item">
-                      <div class="thumbnail-creative-figure"><img th:src="@{/site/images/project-1-195x164.jpg}" alt="" width="195" height="164"/>
+                    <article class="thumbnail thumbnail-creative d-flex">
+                      <div class="col-4 mt-2">
+                        <a th:href="@{/site/images/project-1-1200x800-original.jpg}" data-lightgallery="item">
+                          <div class="thumbnail-creative-figure"><img th:src="@{/site/images/project-1-195x164.jpg}" alt="" width="195" height="164"/>
+                          </div>
+                          <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div>
+                        </a>
                       </div>
-                      <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div></a></article>
-                  </div>
-                  <div class="col-6">
-                    <!-- Thumbnail Creative-->
-                    <article class="thumbnail thumbnail-creative"><a th:href="@{/site/images/project-2-1200x800-original.jpg}" data-lightgallery="item">
-                      <div class="thumbnail-creative-figure"><img th:src="@{/site/images/project-2-195x164.jpg}" alt="" width="195" height="164"/>
+                      <div class="col-8 m-2">
+                        <p>Product A</p>
+                        <p>x7</p>
+                        <p>$56</p>
                       </div>
-                      <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div></a></article>
-                  </div>
-                  <div class="col-6">
-                    <!-- Thumbnail Creative-->
-                    <article class="thumbnail thumbnail-creative">
-                      <a th:href="@{/site/images/project-3-1200x800-original.jpg}" data-lightgallery="item">
-                        <div class="thumbnail-creative-figure"><img th:src="@{/site/images/project-3-195x164.jpg}" alt="" width="195" height="164"/>
-                        </div>
-                        <div class="thumbnail-creative-caption">
-                          <span class="icon thumbnail-creative-icon linearicons-magnifier"></span>
-                        </div>
-                      </a>
                     </article>
                   </div>
-                  <div class="col-6">
-                    <!-- Thumbnail Creative-->
-                    <article class="thumbnail thumbnail-creative"><a th:href="@{/site/images/project-4-1200x800-original.jpg}" data-lightgallery="item">
-                      <div class="thumbnail-creative-figure"><img th:src="@{/site/images/project-4-195x164.jpg}" alt="" width="195" height="164"/>
-                      </div>
-                      <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div></a></article>
-                  </div>
-                  <div class="col-6">
-                    <!-- Thumbnail Creative-->
-                    <article class="thumbnail thumbnail-creative"><a th:href="@{/site/images/project-5-1200x800-original.jpg}" data-lightgallery="item">
-                      <div class="thumbnail-creative-figure"><img th:src="@{/site/images/project-5-195x164.jpg}" alt="" width="195" height="164"/>
-                      </div>
-                      <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div></a></article>
-                  </div>
-                  <div class="col-6">
-                    <!-- Thumbnail Creative-->
-                    <article class="thumbnail thumbnail-creative"><a th:href="@{/site/images/project-6-1200x800-original.jpg}" data-lightgallery="item">
-                      <div class="thumbnail-creative-figure"><img th:src="@{/site/images/project-6-195x164.jpg}" alt="" width="195" height="164"/>
-                      </div>
-                      <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div></a></article>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -180,7 +151,7 @@
             <div class="product-price" th:text="'$'+ ${product.getPrice()}" ></div>
           </div>
           <div class="product-button">
-            <div class="button-wrap"><a class="button button-xs button-primary button-winona" href="#">Add to cart</a></div>
+            <div class="button-wrap"><a class="button button-xs button-primary button-winona" th:href="@{/carts/addtocart/__${httpSession.getAttribute('cartId')}__/__${product.getProductId()}__}">Add to cart</a></div>
             <div class="button-wrap"><a class="button button-xs button-secondary button-winona" href="#">View Product</a></div>
           </div>
         </article>

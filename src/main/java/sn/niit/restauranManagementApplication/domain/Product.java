@@ -52,11 +52,11 @@ public class Product implements Serializable {
 		this.category = category;
 	}
 
-	public long getProduitId() {
+	public long getProductId() {
 		return productId;
 	}
 
-	public void setProduitId(long productId) {
+	public void setProductId(long productId) {
 		this.productId = productId;
 	}
 

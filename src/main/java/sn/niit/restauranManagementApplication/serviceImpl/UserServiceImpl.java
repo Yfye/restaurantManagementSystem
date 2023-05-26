@@ -12,7 +12,9 @@ import sn.niit.restauranManagementApplication.service.UserService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -21,11 +23,16 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository,
-                           RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder) {
+            RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public Optional<User> findByUserId(Long userId) {
+        return userRepository.findById(userId);
     }
 
     @Override
@@ -38,7 +45,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         Role role = roleRepository.findByName("ROLE_USER");
-        if(role == null){
+        if (role == null) {
             role = checkRoleExist("ROLE_USER");
         }
         user.setRoles(Arrays.asList(role));
@@ -55,7 +62,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         Role role = roleRepository.findByName("ROLE_EMPLOYEE");
-        if(role == null){
+        if (role == null) {
             role = checkRoleExist("ROLE_EMPLOYEE");
         }
         user.setRoles(Arrays.asList(role));
@@ -75,7 +82,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-    private UserDto mapToUserDto(User user){
+    private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
 
         userDto.setPrenom(user.getPrenom());
@@ -84,7 +91,7 @@ public class UserServiceImpl implements UserService {
         return userDto;
     }
 
-    private Role checkRoleExist(String roleName){
+    private Role checkRoleExist(String roleName) {
         if (roleName == "")
             throw new RuntimeException("Role name cannot be empty!!");
         Role role = new Role();

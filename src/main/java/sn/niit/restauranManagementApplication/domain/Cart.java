@@ -3,6 +3,8 @@ package sn.niit.restauranManagementApplication.domain;
 import javax.persistence.*;
 import javax.persistence.TemporalType;
 
+import org.springframework.lang.Nullable;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -17,6 +19,7 @@ public class Cart implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
@@ -34,7 +37,13 @@ public class Cart implements Serializable {
 
     private Boolean active;
 
-    public Cart(Boolean active) {
+    public Cart() {
+
+    }
+
+    public Cart(User user, String userSessionId) {
+        this.tokenSession = userSessionId;
+        this.user = user;
         this.active = true;
     }
 
