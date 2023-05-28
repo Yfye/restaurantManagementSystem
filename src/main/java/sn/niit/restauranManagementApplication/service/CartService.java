@@ -1,7 +1,6 @@
 package sn.niit.restauranManagementApplication.service;
 
 import sn.niit.restauranManagementApplication.domain.Cart;
-import sn.niit.restauranManagementApplication.domain.User;
 
 import java.util.List;
 

@@ -4,13 +4,13 @@ import javax.persistence.*;
 import javax.persistence.TemporalType;
 
 import org.springframework.lang.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "shoppingcart")
 public class Cart implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +31,7 @@ public class Cart implements Serializable {
     private int itemCount;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Collection<LineItem> items;
+    private List<LineItem> lineItems;
 
     private String tokenSession;
 
@@ -65,22 +65,23 @@ public class Cart implements Serializable {
 
     public Double getTotalPrice() {
         Double sum = 0.0;
-        for (LineItem item : this.items) {
+        for (LineItem item : this.lineItems) {
             sum = sum + item.getProduct().getPrice();
         }
         return sum;
     }
 
     public int getItemCount() {
-        return this.items.size();
+        return this.lineItems.size();
     }
 
-    public Collection<LineItem> getItems() {
-        return items;
+    @Transactional
+    public List<LineItem> getLineItems() {
+        return lineItems;
     }
 
-    public void setItems(Collection<LineItem> items) {
-        this.items = items;
+    public void setLineItems(List<LineItem> items) {
+        this.lineItems = items;
     }
 
     public String getTokenSession() {

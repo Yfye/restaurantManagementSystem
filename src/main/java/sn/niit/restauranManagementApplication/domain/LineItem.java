@@ -7,18 +7,21 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "line_items")
 public class LineItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private long lineItemId;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "productId", referencedColumnName = "productId")
 	private Product product;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cartId", referencedColumnName = "cartId")
+	private Cart cart;
+
 	@NotNull
-	private int quantite;
+	private int quantity;
 
 	@Temporal(TemporalType.DATE)
 	private Date date;
@@ -26,18 +29,19 @@ public class LineItem {
 	public LineItem() {
 	}
 
-	public LineItem(Product product, int quantite) {
+	public LineItem(Cart cart, Product product, int quantity) {
+		this.cart = cart;
 		this.product = product;
-		this.quantite = quantite;
+		this.quantity = quantity;
 
 	}
 
-	public long getId() {
-		return id;
+	public long getLineItemId() {
+		return lineItemId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setLineItemId(long lineItemId) {
+		this.lineItemId = lineItemId;
 	}
 
 	public Product getProduct() {
@@ -48,12 +52,12 @@ public class LineItem {
 		this.product = produit;
 	}
 
-	public int getQuantite() {
-		return quantite;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setQuantite(int quantite) {
-		this.quantite = quantite;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	public Date getDate() {
@@ -71,11 +75,19 @@ public class LineItem {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		LineItem lineItem = (LineItem) o;
-		return id == lineItem.id;
+		return lineItemId == lineItem.lineItemId;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(lineItemId);
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 }

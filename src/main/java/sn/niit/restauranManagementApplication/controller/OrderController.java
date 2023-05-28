@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import sn.niit.restauranManagementApplication.domain.Category;
 import sn.niit.restauranManagementApplication.domain.Order;
 import sn.niit.restauranManagementApplication.service.OrderService;
 import sn.niit.restauranManagementApplication.service.ProductService;

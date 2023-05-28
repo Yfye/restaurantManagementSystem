@@ -45,7 +45,6 @@ public class RestaurantManagementApplication implements CommandLineRunner {
 						new Category("Plats", "Description for Plats", "menu-6-370x278.png", "linearicons-steak"));
 
 		Category saladCategory = categoryServiceImpl.findByCategoryName("Salades");
-		Category pizzaCategory = categoryServiceImpl.findByCategoryName("Pizzas");
 
 		// Salad fake products
 		productServiceImpl.saveOrUpdateProduct(new Product("Salade 1", "Description for Salad 1", 0.0,

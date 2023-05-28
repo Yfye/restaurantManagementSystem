@@ -6,5 +6,5 @@ public interface LineItemService {
 
     void saveOrUpdateLineItem(LineItem lineItem);
 
-    LineItem findById(Long lineItemId);
+    LineItem findByLineItemId(Long lineItemId);
 }

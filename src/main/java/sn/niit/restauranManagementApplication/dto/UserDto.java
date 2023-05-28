@@ -1,13 +1,6 @@
 package sn.niit.restauranManagementApplication.dto;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Email;
-
-
-
-public class UserDto
-{
-    private Long id;
+public class UserDto {
 
     private String prenom;
 

@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import sn.niit.restauranManagementApplication.domain.Category;
 import sn.niit.restauranManagementApplication.domain.Product;
 import sn.niit.restauranManagementApplication.service.CategoryService;
 import sn.niit.restauranManagementApplication.service.OrderService;

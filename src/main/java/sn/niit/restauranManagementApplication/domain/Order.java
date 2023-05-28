@@ -1,32 +1,30 @@
 package sn.niit.restauranManagementApplication.domain;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.*;
 
-@Entity(name= "orders")
+@Entity(name = "orders")
 @Table(name = "orders")
-public class Order
-{
+public class Order {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long orderId;
 
-	private  LocalDate date;
+	private LocalDate date;
 
 	private double totalPrice;
 
 	private Boolean state;
 
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "cartId", referencedColumnName="cartId")
-//	private Cart cart;
-		 
-	public Order() {}
-	
-	public Order(LocalDate date)
-	{
+	// @OneToOne(fetch = FetchType.LAZY)
+	// @JoinColumn(name = "cartId", referencedColumnName="cartId")
+	// private Cart cart;
+
+	public Order() {
+	}
+
+	public Order(LocalDate date) {
 		this.date = date;
 
 	}
@@ -63,16 +61,9 @@ public class Order
 		this.state = state;
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "Order [id=" + orderId + ", date=" + date + ", totalPrice=" + totalPrice + ", state=" + state ;
+		return "Order [id=" + orderId + ", date=" + date + ", totalPrice=" + totalPrice + ", state=" + state;
 	}
-	
-	
-	
-	
-	
-}
 
+}

@@ -46,16 +46,20 @@ public class SiteController {
 	@GetMapping("/salades")
 	public ModelAndView showSalades() {
 		ModelAndView saladModel = new ModelAndView("site/salades");
-		Cart sessionCart = (Cart) httpSession.getAttribute("sessionCart");
+		Cart sessionCart = cartServiceImpl.getCartByUserSessionId(httpSession.getId());
 		if (sessionCart == null) {
 			sessionCart = new Cart();
+			sessionCart.setUser(null);
 			sessionCart.setTokenSession(httpSession.getId());
+			cartServiceImpl.saveOrUpdateCart(sessionCart);
 		}
 		cartServiceImpl.saveOrUpdateCart(sessionCart);
 		Category saladCategory = categoryServiceImpl.findByCategoryName("Salades");
 		saladModel.addObject("saladCategory", saladCategory);
 		saladModel.addObject("productService", productServiceImpl);
 		saladModel.addObject("httpSession", httpSession);
+		saladModel.addObject("cartService", cartServiceImpl);
+		saladModel.addObject("sessionCart", sessionCart);
 		httpSession.setAttribute("cartId", sessionCart.getCartId());
 		return saladModel;
 	}

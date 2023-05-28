@@ -88,25 +88,28 @@
             </div>
             <div class="rd-navbar-project-content rd-navbar-content">
               <div>
+
                 <div class="row gutters-20" data-lightgallery="group">
-                  <div class="col-12 m-3">
+                  <!--/////////////// LOOP DOWN ⤵ ////////////////-->
+                  <div th:each="lineItem : ${cartService.getCartById(sessionCart.getCartId).getLineItems()}" class="col-12 m-3">
                     <!-- Thumbnail Creative-->
                     <article class="thumbnail thumbnail-creative d-flex">
                       <div class="col-4 mt-2">
                         <a th:href="@{/site/images/project-1-1200x800-original.jpg}" data-lightgallery="item">
-                          <div class="thumbnail-creative-figure"><img th:src="@{/site/images/project-1-195x164.jpg}" alt="" width="195" height="164"/>
+                          <div class="thumbnail-creative-figure"><img th:src="@{/site/images/__${lineItem.getProduct().getImage()}__}" alt="" width="195" height="164"/>
                           </div>
                           <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div>
                         </a>
                       </div>
                       <div class="col-8 m-2">
-                        <p>Product A</p>
-                        <p>x7</p>
-                        <p>$56</p>
+                        <p th:text="${lineItem.getProduct().getName()}"></p>
+                        <p th:text="'x' + ${lineItem.getQuantity()}"></p>
+                        <p th:text="'$' + ${lineItem.getProduct().getPrice()}"></p>
                       </div>
                     </article>
                   </div>
                   
+                  <!--/////////////// LOOP UP ⤴  ////////////////-->
                 </div>
               </div>
             </div>
