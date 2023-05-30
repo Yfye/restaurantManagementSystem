@@ -2,11 +2,12 @@ package sn.niit.restauranManagementApplication.domain;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +17,7 @@ public class User {
 	@NotEmpty
 	private String nom;
 
-	@NotEmpty(message = "L'email de l'utlisateur  est obligatoire ")
+	@NotEmpty(message = "L'email de l'utlisateur est obligatoire ")
 	private String email;
 
 	@NotEmpty(message = "Le mot de pass  de l'utlisateur  est obligatoire ")
@@ -24,7 +25,7 @@ public class User {
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	// @JoinColumn(name="roles", referencedColumnName="roleId")
-	private List<Role> roles = new ArrayList<>();
+	private Collection<Role> roles = new ArrayList<>();
 
 	public User() {
 	}
@@ -77,11 +78,11 @@ public class User {
 		this.password = password;
 	}
 
-	public List<Role> getRoles() {
+	public Collection<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
 }

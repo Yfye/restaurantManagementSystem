@@ -3,16 +3,22 @@ package sn.niit.restauranManagementApplication.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import sn.niit.restauranManagementApplication.Security.CustomUserDetailsService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +28,7 @@ import java.util.stream.Collectors;
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SpringSecutity {
     @Autowired
-    private UserDetailsService userDetailsService;
+    private CustomUserDetailsService userDetailsService;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -44,7 +50,13 @@ public class SpringSecutity {
                                             .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
                                     String emp_role = "ROLE_EMPLOYEE";
-                                    response.sendRedirect(roles.contains(emp_role) ? "/admin/dashboard" : "/");
+                                    String user_role = "ROLE_USER";
+                                    if (roles.contains(user_role))
+                                        System.out.println("The user is a ...user.");
+                                    if (roles.contains(emp_role))
+                                        System.out.println("The user is an employee.");
+                                    System.out.println(String.format("These are the roles: %s", roles.toString()));
+                                    response.sendRedirect(roles.contains(emp_role) ? "/admin/dashboard" : "/site/home");
                                 }))
                                 .permitAll())
                 .logout(
@@ -60,4 +72,44 @@ public class SpringSecutity {
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+
+    // @Configuration
+    // @EnableWebSecurity
+    // public class AppConfigurationAdapter {
+
+    // @Autowired
+    // private CustomUserDetailsService userDetailsService;
+
+    // @Autowired
+    // public void configureGlobal(AuthenticationManagerBuilder auth) throws
+    // Exception {
+    // auth
+    // .userDetailsService(userDetailsService)
+    // .passwordEncoder(passwordEncoder());
+    // }
+
+    // @Bean
+    // public SecurityFilterChain filterChainAdmin(HttpSecurity httpSecurity) throws
+    // Exception {
+
+    // httpSecurity.antMatcher("/site/home")
+    // .authorizeRequests().anyRequest().hasRole("USER")
+    // .and()
+    // .formLogin(
+    // form -> form
+    // .loginPage("/user-login")
+    // .loginProcessingUrl("/process-user_login")
+    // .successHandler(new CustomAuthenticationFilter())
+    // .defaultSuccessUrl("/site/home")
+    // .permitAll())
+    // // .failureUrl(null)
+    // // .defaultSuccessUrl("/site/home")
+    // .logout(
+    // logout -> logout
+    // .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+    // .permitAll());
+
+    // return httpSecurity.build();
+    // }
+    // }
 }

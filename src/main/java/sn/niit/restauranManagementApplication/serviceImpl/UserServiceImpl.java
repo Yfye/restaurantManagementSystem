@@ -9,7 +9,9 @@ import sn.niit.restauranManagementApplication.repository.RoleRepository;
 import sn.niit.restauranManagementApplication.repository.UserRepository;
 import sn.niit.restauranManagementApplication.service.UserService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,19 +37,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(UserDto userDto) {
+    public void saveUser(UserDto userDto, String _role) {
         User user = new User();
         user.setNom(userDto.getNom());
         user.setPrenom(userDto.getPrenom());
         user.setEmail(userDto.getEmail());
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userRepository.save(user);
 
-        Role role = roleRepository.findByName("ROLE_USER");
-        if (role == null) {
-            role = checkRoleExist("ROLE_USER");
+        switch (_role) {
+            case "user":
+                addRoleToUser(user.getEmail(), "ROLE_USER");
+                break;
+
+            case "employee":
+                addRoleToUser(user.getEmail(), "ROLE_EMPLOYEE");
+                break;
+
+            default:
+                throw new RuntimeException("Registration process failed !");
         }
-        user.setRoles(Arrays.asList(role));
+
         userRepository.save(user);
     }
 
@@ -65,7 +76,19 @@ public class UserServiceImpl implements UserService {
             role = checkRoleExist("ROLE_EMPLOYEE");
         }
         user.setRoles(Arrays.asList(role));
-        userRepository.save(user);
+
+    }
+
+    public void addRoleToUser(String email, String roleName) {
+        User user = userRepository.findByEmail(email);
+        Role role = roleRepository.findByName(roleName);
+        if (user != null && role != null) {
+            Collection<Role> roles = user.getRoles();
+            roles.add(role);
+            user.setRoles(roles);
+            userRepository.save(user);
+        } else
+            throw new RuntimeException("Operation Failed!");
     }
 
     @Override

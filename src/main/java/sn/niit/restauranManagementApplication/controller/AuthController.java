@@ -36,6 +36,11 @@ public class AuthController {
         return "login";
     }
 
+    @GetMapping("/user-login")
+    public String user_login() {
+        return "user-login";
+    }
+
     // handler method to handle user registration form request
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -45,16 +50,16 @@ public class AuthController {
         return "register";
     }
 
-    @GetMapping("/empRegister")
+    @GetMapping("/user-register")
     public String employeeRegistrationForm(Model model) {
         // create model object to store form data
         UserDto user = new UserDto();
         model.addAttribute("user", user);
-        return "empRegister";
+        return "user-register";
     }
 
     // handler method to handle user registration form submit request
-    @PostMapping(value = "/register/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/register/save-emp", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String registration(@Valid @ModelAttribute("user") UserDto userDto,
             BindingResult result,
             Model model) {
@@ -71,8 +76,29 @@ public class AuthController {
         }
 
         System.out.println(userDto.getPrenom() + userDto.getNom() + userDto.getEmail() + userDto.getPassword());
-        userService.saveUser(userDto);
+        userService.saveUser(userDto, "employee");
         return "redirect:/register?success";
+    }
+
+    @PostMapping(value = "/register/save-user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String employeeRegistration(@Valid @ModelAttribute("user") UserDto userDto,
+            BindingResult result,
+            Model model) {
+        User existingUser = userService.findUserByEmail(userDto.getEmail());
+
+        if (existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()) {
+            result.rejectValue("email", null,
+                    "There is already an account registered with the same email");
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("user", userDto);
+            return "/user-register";
+        }
+
+        System.out.println(userDto.getPrenom() + userDto.getNom() + userDto.getEmail() + userDto.getPassword());
+        userService.saveUser(userDto, "user");
+        return "redirect:/user-register?success";
     }
 
     // handler method to handle list of users

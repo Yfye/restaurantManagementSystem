@@ -10,7 +10,7 @@ public interface UserService {
 
 	Optional<User> findByUserId(Long userId);
 
-	void saveUser(UserDto userDto);
+	void saveUser(UserDto userDto, String role);
 
 	void saveEmployee(UserDto userDto);
 

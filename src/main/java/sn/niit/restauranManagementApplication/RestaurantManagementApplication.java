@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import sn.niit.restauranManagementApplication.domain.Category;
 import sn.niit.restauranManagementApplication.domain.Product;
+import sn.niit.restauranManagementApplication.domain.Role;
+import sn.niit.restauranManagementApplication.repository.RoleRepository;
 import sn.niit.restauranManagementApplication.serviceImpl.CategoryServiceImpl;
 import sn.niit.restauranManagementApplication.serviceImpl.ProductServiceImpl;
 
@@ -17,6 +19,8 @@ public class RestaurantManagementApplication implements CommandLineRunner {
 	private CategoryServiceImpl categoryServiceImpl;
 	@Autowired
 	private ProductServiceImpl productServiceImpl;
+	@Autowired
+	private RoleRepository roleRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(RestaurantManagementApplication.class, args);
@@ -24,6 +28,8 @@ public class RestaurantManagementApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		roleRepository.save(new Role("ROLE_USER"));
+		roleRepository.save(new Role("ROLE_EMPLOYEE"));
 		// Categories
 		categoryServiceImpl
 				.saveOrUpdateCategory(new Category("Desserts", "Description for Desserts", "menu-4-370x278.jpg",
