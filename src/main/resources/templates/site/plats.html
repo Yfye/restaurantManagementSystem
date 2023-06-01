@@ -59,26 +59,45 @@
             <div class="rd-navbar-main">
               <!-- RD Navbar Nav-->
               <ul class="rd-navbar-nav">
-                <li class="rd-nav-item active"><a class="rd-nav-link" th:href="@{/site/home}">Accueil</a>
-                </li>
-                <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/about-us}">A propos de nous</a>
-                </li>
-
-                <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/contact}">Contacts</a>
-                </li>
+                  <li class="rd-nav-item active"><a class="rd-nav-link" th:href="@{/site/home}">Accueil</a>
+                  </li>
+                  <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/about-us}">A propos de nous</a>
+                  </li>
+                  <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/contact}">Contacts</a>
+                  </li>
+                  <li class="rd-nav-item">
+                      <div class="rd-nav-link rd-navbar-fixed-element-1" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
+                          <div class="project-hamburger">
+                              <svg width="80px" height="80px"  fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M3 3H4.37144C5.31982 3 6.13781 3.66607 6.32996 4.59479L8.67004 15.9052C8.86219 16.8339 9.68018 17.5 10.6286 17.5H17.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <path d="M6.82422 7H19.6743C20.3386 7 20.8183 7.6359 20.6358 8.27472L19.6217 11.8242C19.2537 13.1121 18.0765 14 16.7371 14H8.27734" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <circle cx="16.5" cy="20.5" r="0.5" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              <circle cx="0.5" cy="0.5" r="0.5" transform="matrix(1 0 0 -1 10 21)" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                          </div>
+                      </div>
+                  </li>
+                  
               </ul>
-            </div>
+              <div th:if="${!isUserLogged}" class="rd-nav-item" >
+                <div class="bg-primary p-1" style="border-radius: 3px; font-weight: 500;">
+                    <a class="text-white" th:text="'Log In'" href="/login"></a>
+                </div>
+              </div>
+              <div th:if="${isUserLogged}" class="rd-nav-item nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${username}"></a>
+                  <div class="dropdown-menu">
+                    <!-- <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a> -->
+                    <!-- <div class="dropdown-divider"></div> -->
+                    <a class="dropdown-item" href="#">Logout</a>
+                  </div>
+              </div>
+              
           </div>
-          <div class="rd-navbar-project-hamburger rd-navbar-project-hamburger-open rd-navbar-fixed-element-1" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
-            <div class="project-hamburger">
-              <svg width="80px" height="80px"  fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 3H4.37144C5.31982 3 6.13781 3.66607 6.32996 4.59479L8.67004 15.9052C8.86219 16.8339 9.68018 17.5 10.6286 17.5H17.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M6.82422 7H19.6743C20.3386 7 20.8183 7.6359 20.6358 8.27472L19.6217 11.8242C19.2537 13.1121 18.0765 14 16.7371 14H8.27734" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="16.5" cy="20.5" r="0.5" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="0.5" cy="0.5" r="0.5" transform="matrix(1 0 0 -1 10 21)" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
           </div>
+          
           <div class="rd-navbar-project">
             <div class="rd-navbar-project-header">
               <h5 class="rd-navbar-project-title">Gallery</h5>

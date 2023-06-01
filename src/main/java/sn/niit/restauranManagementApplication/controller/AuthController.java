@@ -1,5 +1,6 @@
 package sn.niit.restauranManagementApplication.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sn.niit.restauranManagementApplication.domain.User;
 import sn.niit.restauranManagementApplication.dto.UserDto;
 import sn.niit.restauranManagementApplication.service.UserService;
+import sn.niit.restauranManagementApplication.serviceImpl.CartServiceImpl;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,6 +21,9 @@ import java.util.List;
 @RequestMapping("/")
 public class AuthController {
     private UserService userService;
+
+    @Autowired
+    private CartServiceImpl cartServiceImpl;
 
     public AuthController(UserService userService) {
         this.userService = userService;
@@ -75,7 +80,6 @@ public class AuthController {
             return "/register";
         }
 
-        System.out.println(userDto.getPrenom() + userDto.getNom() + userDto.getEmail() + userDto.getPassword());
         userService.saveUser(userDto, "employee");
         return "redirect:/register?success";
     }
@@ -98,6 +102,10 @@ public class AuthController {
 
         System.out.println(userDto.getPrenom() + userDto.getNom() + userDto.getEmail() + userDto.getPassword());
         userService.saveUser(userDto, "user");
+        if (cartServiceImpl.doesSessionCartExist()) {
+            cartServiceImpl.assignSessionCartToUser(userDto.getEmail());
+        }
+
         return "redirect:/user-register?success";
     }
 

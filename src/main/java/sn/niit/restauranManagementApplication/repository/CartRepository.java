@@ -8,5 +8,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     Cart findBytokenSession(String tokenSession);
 
+    Cart findByUserAndActive(User user, Boolean active);
+
     Cart findByUser(User user);
 }

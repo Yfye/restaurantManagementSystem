@@ -11,6 +11,8 @@ import sn.niit.restauranManagementApplication.service.CartService;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 @Service
 public class CartServiceImpl implements CartService {
     @Autowired
@@ -24,6 +26,9 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private LineItemServiceImpl lineItemServiceImpl;
+
+    @Autowired
+    private HttpSession httpSession;
 
     @Override
     public void saveOrUpdateCart(Cart cart) {
@@ -59,6 +64,16 @@ public class CartServiceImpl implements CartService {
 
     }
 
+    public boolean doesSessionCartExist() {
+        return this.getCartByUserSessionId(httpSession.getId()) != null;
+    }
+
+    public void assignSessionCartToUser(String email) {
+        Cart sessionCart = this.getCartByUserSessionId(httpSession.getId());
+        sessionCart.setUser(userServiceImpl.findUserByEmail(email));
+        cartRepository.save(sessionCart);
+    }
+
     public boolean doesProductExistInCart(Long cartId, Long productId) {
         Cart cart = this.getCartById(cartId);
         Product product = productServiceImpl.findById(productId);
@@ -72,6 +87,11 @@ public class CartServiceImpl implements CartService {
     public Cart getCartById(Long id) {
         Cart cart = cartRepository.findById(id).orElseThrow(() -> new RuntimeException("Panier non trouvé"));
         return cart;
+    }
+
+    @Override
+    public Cart getLastUserCart(String email) {
+        return cartRepository.findByUserAndActive(userServiceImpl.findUserByEmail(email), true);
     }
 
     @Override

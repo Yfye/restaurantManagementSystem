@@ -98,31 +98,81 @@
                                     </li>
                                     <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/about-us}">A propos de nous</a>
                                     </li>
-
                                     <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/contact}">Contacts</a>
                                     </li>
+                                    <li class="rd-nav-item">
+                                        <div class="rd-nav-link rd-navbar-fixed-element-1" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
+                                            <div class="project-hamburger">
+                                                <svg width="80px" height="80px"  fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M3 3H4.37144C5.31982 3 6.13781 3.66607 6.32996 4.59479L8.67004 15.9052C8.86219 16.8339 9.68018 17.5 10.6286 17.5H17.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M6.82422 7H19.6743C20.3386 7 20.8183 7.6359 20.6358 8.27472L19.6217 11.8242C19.2537 13.1121 18.0765 14 16.7371 14H8.27734" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <circle cx="16.5" cy="20.5" r="0.5" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <circle cx="0.5" cy="0.5" r="0.5" transform="matrix(1 0 0 -1 10 21)" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    
                                 </ul>
+                                <div th:if="${!isUserLogged}" class="rd-nav-item" >
+                                  <div class="bg-primary p-1" style="border-radius: 3px; font-weight: 500;">
+                                      <a class="text-white" th:text="'Log In'" href="/login"></a>
+                                  </div>
+                                </div>
+                                <div th:if="${isUserLogged}" class="rd-nav-item nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${username}"></a>
+                                    <div class="dropdown-menu">
+                                      <!-- <a class="dropdown-item" href="#">Action</a>
+                                      <a class="dropdown-item" href="#">Another action</a>
+                                      <a class="dropdown-item" href="#">Something else here</a> -->
+                                      <!-- <div class="dropdown-divider"></div> -->
+                                      <a class="dropdown-item" href="#">Logout</a>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
-                        <div class="rd-navbar-project-hamburger rd-navbar-project-hamburger-open rd-navbar-fixed-element-1" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
-                            <div class="project-hamburger">
-                                <svg width="80px" height="80px"  fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M3 3H4.37144C5.31982 3 6.13781 3.66607 6.32996 4.59479L8.67004 15.9052C8.86219 16.8339 9.68018 17.5 10.6286 17.5H17.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                  <path d="M6.82422 7H19.6743C20.3386 7 20.8183 7.6359 20.6358 8.27472L19.6217 11.8242C19.2537 13.1121 18.0765 14 16.7371 14H8.27734" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                  <circle cx="16.5" cy="20.5" r="0.5" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                  <circle cx="0.5" cy="0.5" r="0.5" transform="matrix(1 0 0 -1 10 21)" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
-                        </div>
+                        
                         <div class="rd-navbar-project">
                             <div class="rd-navbar-project-header">
-                                <h5 class="rd-navbar-project-title">Gallery</h5>
-                                <div class="rd-navbar-project-hamburger rd-navbar-project-hamburger-close" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
-                                    <div class="project-close"><span></span><span></span></div>
-                                </div>
+                              <h5 class="rd-navbar-project-title">My Cart</h5>
+                              <div class="rd-navbar-project-hamburger rd-navbar-project-hamburger-close" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
+                                <div class="project-close"><span></span><span></span></div>
+                              </div>
                             </div>
+                            <div class="rd-navbar-project-content rd-navbar-content">
+                              <div>
+                
+                                <div class="row gutters-20" data-lightgallery="group">
+                                  <!--/////////////// LOOP DOWN ⤵ ////////////////-->
+                                  <div th:each="lineItem : ${cartService.getCartById(sessionCart.getCartId).getLineItems()}" class="col-12 m-3">
+                                    <!-- Thumbnail Creative-->
+                                    <article class="thumbnail thumbnail-creative d-flex">
+                                      <div class="col-4 mt-2">
+                                        <a th:href="@{/site/images/project-1-1200x800-original.jpg}" data-lightgallery="item">
+                                          <div class="thumbnail-creative-figure"><img th:src="@{/site/images/__${lineItem.getProduct().getImage()}__}" alt="" width="195" height="164"/>
+                                          </div>
+                                          <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div>
+                                        </a>
+                                      </div>
+                                      <div class="col-8 m-2">
+                                        <p th:text="${lineItem.getProduct().getName()}"></p>
+                                        <p th:text="'x' + ${lineItem.getQuantity()}"></p>
+                                        <p th:text="'$' + ${lineItem.getProduct().getPrice()}"></p>
+                                      </div>
+                                    </article>
+                                  </div>
+                                  
+                                  <!--/////////////// LOOP UP ⤴  ////////////////-->
+                                </div>
 
-                        </div>
+                                
+                              </div>
+                              <div class="col-12 p-2">
+                                <button class=" btn btn-block btn-primary">Validate Cart</button>
+                            </div>
+                            </div>
+                          </div>
                     </div>
                 </div>
             </nav>
@@ -136,7 +186,7 @@
                     <div class="container">
                     <div class="row">
                        <div class="col-sm-9 col-md-8 col-lg-7 col-xl-7 offset-lg-1 offset-xxl-0">
-                              <h1 class="oh swiper-title"><span class="d-inline-block" data-caption-animate="slideInUp" data-caption-delay="0">Bienvenu à 3ROCHES</span></h1>
+                              <h1 class="oh swiper-title"><span class="d-inline-block" data-caption-animate="slideInUp" data-caption-delay="0">Bienvenue à 3ROCHES</span></h1>
                              <p class="big swiper-text" data-caption-animate="fadeInLeft" data-caption-delay="300">Testez la meilleure des saveurs, dans l'un des meilleurs Restaurants!</p><a class="button button-lg button-primary button-winona button-shadow-2" th:href="@{/site/menu}" data-caption-animate="fadeInUp" data-caption-delay="300">View our menu</a>
                           </div>
                        </div>

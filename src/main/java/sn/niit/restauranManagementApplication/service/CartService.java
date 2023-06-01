@@ -1,6 +1,7 @@
 package sn.niit.restauranManagementApplication.service;
 
 import sn.niit.restauranManagementApplication.domain.Cart;
+import sn.niit.restauranManagementApplication.domain.User;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface CartService {
     Cart getCartById(Long id);
 
     Cart getCartByUserId(Long userId);
+
+    Cart getLastUserCart(String email);
 
     Cart getCartByUserSessionId(String userSessionId);
 
