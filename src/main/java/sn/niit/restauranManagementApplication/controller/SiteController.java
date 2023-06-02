@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import sn.niit.restauranManagementApplication.domain.Cart;
 import sn.niit.restauranManagementApplication.domain.Category;
+import sn.niit.restauranManagementApplication.domain.State;
 import sn.niit.restauranManagementApplication.serviceImpl.CartServiceImpl;
 import sn.niit.restauranManagementApplication.serviceImpl.CategoryServiceImpl;
 import sn.niit.restauranManagementApplication.serviceImpl.ProductServiceImpl;
@@ -45,7 +46,7 @@ public class SiteController {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName().split("@")[0];
 		homeModel.addObject("username", username);
 		httpSession.setAttribute("cartId", sessionCart.getCartId());
-
+		System.out.println(String.format("State of the session cart: %s", sessionCart.getState()));
 		return homeModel;
 	}
 
@@ -227,7 +228,7 @@ public class SiteController {
 				sessionCart = new Cart();
 				sessionCart.setUser(null);
 				sessionCart.setTokenSession(httpSession.getId());
-				sessionCart.setActive(true);
+				sessionCart.setState(State.ACTIVE);
 				cartServiceImpl.saveOrUpdateCart(sessionCart);
 			}
 			return sessionCart;

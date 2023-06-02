@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sn.niit.restauranManagementApplication.domain.Cart;
 import sn.niit.restauranManagementApplication.domain.LineItem;
+import sn.niit.restauranManagementApplication.domain.Order;
 import sn.niit.restauranManagementApplication.domain.Product;
+import sn.niit.restauranManagementApplication.domain.State;
 import sn.niit.restauranManagementApplication.domain.User;
 import sn.niit.restauranManagementApplication.repository.CartRepository;
 import sn.niit.restauranManagementApplication.service.CartService;
 
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -47,21 +50,38 @@ public class CartServiceImpl implements CartService {
         }
 
         boolean exist = doesProductExistInCart(cartId, lineItem.getProduct().getProductId());
-        if (exist) {
-            for (LineItem lineItemItrtr : cartLineItems)
-                if (lineItemItrtr.getProduct().getName() == lineItem.getProduct().getName()) {
-                    lineItemItrtr.setQuantity(lineItemItrtr.getQuantity() + 1);
-                    lineItemServiceImpl.saveOrUpdateLineItem(lineItemItrtr);
-                    cartRepository.save(cart);
-                }
+        try {
+            if (exist) {
+                for (LineItem lineItemItrtr : cartLineItems)
+                    if (lineItemItrtr.getProduct().getName() == lineItem.getProduct().getName()) {
+                        lineItemItrtr.setQuantity(lineItemItrtr.getQuantity() + 1);
+                        lineItemServiceImpl.saveOrUpdateLineItem(lineItemItrtr);
+                        cartRepository.save(cart);
+                    }
 
-        } else {
-            cartLineItems.add(lineItem);
-            cart.setLineItems(cartLineItems);
-            lineItemServiceImpl.saveOrUpdateLineItem(lineItem);
-            cartRepository.save(cart);
+            } else {
+                cartLineItems.add(lineItem);
+                cart.setLineItems(cartLineItems);
+                lineItemServiceImpl.saveOrUpdateLineItem(lineItem);
+                cartRepository.save(cart);
+            }
+        } catch (ConcurrentModificationException e) {
+            // ! DO NOTHING!!
         }
 
+    }
+
+    public void removeProductFromCart(Long cartId, Long productId) {
+        Cart cart = this.getCartById(cartId);
+        List<LineItem> cartLineItems = cart.getLineItems();
+        Product product = productServiceImpl.findById(productId);
+
+        if (cart == null || product == null) {
+            throw new RuntimeException("Error: Cannot remove product from cart.");
+        }
+        cartLineItems.removeIf(lineItem -> lineItem.getProduct().getName() == product.getName());
+        cart.setLineItems(cartLineItems);
+        cartRepository.save(cart);
     }
 
     public boolean doesSessionCartExist() {
@@ -71,6 +91,7 @@ public class CartServiceImpl implements CartService {
     public void assignSessionCartToUser(String email) {
         Cart sessionCart = this.getCartByUserSessionId(httpSession.getId());
         sessionCart.setUser(userServiceImpl.findUserByEmail(email));
+        sessionCart.setTokenSession("");
         cartRepository.save(sessionCart);
     }
 
@@ -91,23 +112,68 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart getLastUserCart(String email) {
-        return cartRepository.findByUserAndActive(userServiceImpl.findUserByEmail(email), true);
+        List<Cart> activeCarts = cartRepository.findByUser(userServiceImpl.findUserByEmail(email));
+        activeCarts.removeIf(cart -> cart.getState().equals(State.INACTIVE));
+        try {
+            return activeCarts.get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+
     }
 
     @Override
     public Cart getCartByUserId(Long userId) {
         User user = userServiceImpl.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("User does not exist !"));
-        return cartRepository.findByUser(user);
+        List<Cart> userCarts = cartRepository.findByUser(user);
+        userCarts.removeIf(cart -> cart.getState().equals(State.ACTIVE) || cart.getState().equals(State.PENDING));
+        try {
+            return userCarts.get(0);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     @Override
     public Cart getCartByUserSessionId(String userSessionId) {
-        return cartRepository.findBytokenSession(userSessionId);
+        return cartRepository.findByTokenSession(userSessionId);
+        // sessionCarts.removeIf(cart -> !cart.getState().equals(State.INACTIVE));
+        // return sessionCarts.get(0);
     }
 
     @Override
     public List<Cart> getAllCart() {
         return cartRepository.findAll();
     }
+
+    public void validateCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart does not exist!"));
+        cart.setState(cart.getState().equals(State.ACTIVE) ? State.PENDING : State.ACTIVE);
+        cartRepository.save(cart);
+    }
+
+    public boolean isCartActive(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart does not exist!"));
+        return cart.getState().equals(State.ACTIVE);
+    }
+
+    public boolean isCartPending(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart does not exist!"));
+        return cart.getState().equals(State.PENDING);
+    }
+
+    public boolean isCartEmpty(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("Cart does not exist!"));
+        if (cart == null)
+            return true;
+        boolean itemStatus = false;
+        try {
+            itemStatus = !(cart.getLineItems().size() > 0);
+        } catch (NullPointerException e) {
+            itemStatus = true;
+        }
+        return itemStatus;
+    }
+
 }

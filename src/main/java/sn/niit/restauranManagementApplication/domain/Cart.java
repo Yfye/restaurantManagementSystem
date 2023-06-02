@@ -35,7 +35,7 @@ public class Cart implements Serializable {
 
     private String tokenSession;
 
-    private Boolean active;
+    private State state;
 
     public Cart() {
 
@@ -44,15 +44,7 @@ public class Cart implements Serializable {
     public Cart(User user, String userSessionId) {
         this.tokenSession = userSessionId;
         this.user = user;
-        this.active = true;
-    }
-
-    public Long getId() {
-        return cartId;
-    }
-
-    public void setId(Long id) {
-        this.cartId = id;
+        this.state = State.ACTIVE;
     }
 
     public Date getDate() {
@@ -92,12 +84,12 @@ public class Cart implements Serializable {
         this.tokenSession = tokenSession;
     }
 
-    public Boolean getActive() {
-        return active;
+    public State getState() {
+        return state;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setState(State state) {
+        this.state = state;
     }
 
     public Long getCartId() {

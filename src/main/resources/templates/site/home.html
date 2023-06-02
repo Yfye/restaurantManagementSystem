@@ -120,13 +120,13 @@
                                   </div>
                                 </div>
                                 <div th:if="${isUserLogged}" class="rd-nav-item nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${username}"></a>
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${'@' + username}"></a>
                                     <div class="dropdown-menu">
                                       <!-- <a class="dropdown-item" href="#">Action</a>
                                       <a class="dropdown-item" href="#">Another action</a>
                                       <a class="dropdown-item" href="#">Something else here</a> -->
                                       <!-- <div class="dropdown-divider"></div> -->
-                                      <a class="dropdown-item" href="#">Logout</a>
+                                      <a class="dropdown-item" href="/logout">Logout</a>
                                     </div>
                                 </div>
                                 
@@ -145,20 +145,25 @@
                 
                                 <div class="row gutters-20" data-lightgallery="group">
                                   <!--/////////////// LOOP DOWN ⤵ ////////////////-->
-                                  <div th:each="lineItem : ${cartService.getCartById(sessionCart.getCartId).getLineItems()}" class="col-12 m-3">
+                                  <div th:each="lineItem : ${cartService.getCartById(sessionCart.getCartId()).getLineItems()}" class="col-12 m-3">
                                     <!-- Thumbnail Creative-->
-                                    <article class="thumbnail thumbnail-creative d-flex">
+                                    <article class=" d-flex">
                                       <div class="col-4 mt-2">
-                                        <a th:href="@{/site/images/project-1-1200x800-original.jpg}" data-lightgallery="item">
+                                        <!-- <a th:href="@{/site/images/project-1-1200x800-original.jpg}" data-lightgallery="item"> -->
                                           <div class="thumbnail-creative-figure"><img th:src="@{/site/images/__${lineItem.getProduct().getImage()}__}" alt="" width="195" height="164"/>
                                           </div>
                                           <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div>
-                                        </a>
+                                        <!-- </a> -->
                                       </div>
-                                      <div class="col-8 m-2">
+                                      <div class="col-4 mt-2 mb-2">
                                         <p th:text="${lineItem.getProduct().getName()}"></p>
                                         <p th:text="'x' + ${lineItem.getQuantity()}"></p>
                                         <p th:text="'$' + ${lineItem.getProduct().getPrice()}"></p>
+                                      </div>
+                                      <div class="d-flex mr-3 col-4">
+                                        <div class="justify-content-end" style="transform: rotate(90deg); position:relative; right: 35px;">
+                                            <a class=" fa-close" style="color: red; " th:href="@{/carts/removeItem/__${sessionCart.getCartId()}__/__${lineItem.getProduct().getProductId()}__}">&nbsp;Remove</a>
+                                        </div>
                                       </div>
                                     </article>
                                   </div>
@@ -168,9 +173,14 @@
 
                                 
                               </div>
-                              <div class="col-12 p-2">
-                                <button class=" btn btn-block btn-primary">Validate Cart</button>
-                            </div>
+                              
+                              <div th:if="${!(cartService.isCartEmpty(sessionCart.getCartId()))}" class="col-12">
+                                <button class="mt-3 btn btn-block btn-lg btn-primary" th:attr="onclick=|window.location.href='/carts/validate/' + '${sessionCart.getCartId()}'|" th:disabled="${!(isUserLogged) || cartService.isCartPending(sessionCart.getCartId())}">
+                                    <p class="text-white" th:text="${sessionCart.getState() == 'ACTIVE' ? 'Order Ready!' : 'Validate Cart'}"></p>
+                                </button>
+                                <p th:if="${cartService.isCartPending(sessionCart.getCartId())}" class="bg-secondary mt-1 text-wrap text-black font-weight-bolder">Come Checkout At The Counter.</p>
+                                <button th:if="${cartService.isCartPending(sessionCart.getCartId())}" th:attr="onclick=|window.location.href='/carts/validate/' + '${sessionCart.getCartId()}'|" class="mt-1 btn btn-sm button-secondary">Click to cancel</b>
+                              </div>
                             </div>
                           </div>
                     </div>
@@ -223,7 +233,7 @@
             </div>
         </div>
     </section>
-    <!-- What We Offer-->
+    <!-- What We Offer [EDIT: This is the for:each category loop ]-->
     <section class="section section-md bg-default">
         <div class="container">
             <h3 class="oh-desktop"><span class="d-inline-block wow slideInDown">Our Menu</span></h3>
@@ -258,7 +268,7 @@
                             <p class="lead">La meilleure des saveurs, pour la meilleure des services.</p>
                             <p class="cta-modern-text oh-desktop" data-wow-delay=".1s"><span class="cta-modern-decor wow slideInLeft"></span><span class="d-inline-block wow slideInDown"></span></p><a class="button button-md button-secondary-2 button-winona wow fadeInUp" th:href="@{/site/menu}" data-wow-delay=".2s">View Our Services</a>
                         </div>
-                    </div>f
+                    </div>
                 </div>
             </div>
         </div>

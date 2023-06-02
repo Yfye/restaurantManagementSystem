@@ -1,14 +1,17 @@
 package sn.niit.restauranManagementApplication.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import sn.niit.restauranManagementApplication.domain.Cart;
+import sn.niit.restauranManagementApplication.domain.State;
 import sn.niit.restauranManagementApplication.domain.User;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-    Cart findBytokenSession(String tokenSession);
+    Cart findByTokenSession(String tokenSession);
 
-    Cart findByUserAndActive(User user, Boolean active);
+    Cart findByUserAndState(User user, State state);
 
-    Cart findByUser(User user);
+    List<Cart> findByUser(User user);
 }

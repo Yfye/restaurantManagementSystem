@@ -1,8 +1,8 @@
 package sn.niit.restauranManagementApplication.domain;
 
-public enum State 
-{
-	delievery,
-	pending
+public enum State {
+	ACTIVE,
+	PENDING,
+	INACTIVE
 
 }

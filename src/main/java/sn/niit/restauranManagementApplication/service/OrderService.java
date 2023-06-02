@@ -2,6 +2,7 @@ package sn.niit.restauranManagementApplication.service;
 
 import java.util.List;
 
+import sn.niit.restauranManagementApplication.domain.Cart;
 import sn.niit.restauranManagementApplication.domain.Order;
 import sn.niit.restauranManagementApplication.domain.Product;
 import sn.niit.restauranManagementApplication.domain.User;
@@ -11,7 +12,9 @@ public interface OrderService {
 
 	Order getOrderById(Long id);
 
-	String getOrderState(Order order);
+	Order getByCart(Cart cart);
+
+	// String getOrderState(Order order);
 
 	void deleteOrder(Long Id);
 

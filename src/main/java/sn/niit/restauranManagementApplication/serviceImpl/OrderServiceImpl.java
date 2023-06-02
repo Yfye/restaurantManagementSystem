@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import sn.niit.restauranManagementApplication.domain.Cart;
 import sn.niit.restauranManagementApplication.domain.Order;
 import sn.niit.restauranManagementApplication.domain.Product;
 import sn.niit.restauranManagementApplication.domain.State;
@@ -48,14 +50,20 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public Order getByCart(Cart cart) {
+		return orderRepository.findByCart(cart);
+	}
+
+	@Override
 	public void deleteOrder(Long Id) {
 		orderRepository.deleteById(Id);
 	}
 
-	@Override
-	public String getOrderState(Order order) {
-		return order.getState() ? String.valueOf(State.delievery) : String.valueOf(State.pending);
-	}
+	// @Override
+	// public String getOrderState(Order order) {
+	// return order.getState() ? String.valueOf(State.delievery) :
+	// String.valueOf(State.pending);
+	// }
 
 	@Override
 	public List<User> getAllUser() {

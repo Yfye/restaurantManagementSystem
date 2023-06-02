@@ -28,112 +28,127 @@
         <div class="rd-navbar-inner">
           <!-- RD Navbar Panel-->
           <div class="rd-navbar-panel">
-            <!-- RD Navbar Toggle-->
-            <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-            <!-- RD Navbar Brand-->
-            <div class="rd-navbar-brand"><a class="brand" href="/site/home"><h2>3ROCHES</h2></a></div>
+              <!-- RD Navbar Toggle-->
+              <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+              <!-- RD Navbar Brand-->
+              <div class="rd-navbar-brand"><a class="brand" th:href= "@{/site/home}"><h2>3ROCHES</h2></a></div>
           </div>
           <div class="rd-navbar-right rd-navbar-nav-wrap">
-            <div class="rd-navbar-aside">
-              <ul class="rd-navbar-contacts-2">
-                <li>
-                  <div class="unit unit-spacing-xs">
-                    <div class="unit-left"><span class="icon mdi mdi-phone"></span></div>
-                    <div class="unit-body"><a class="phone" href="tel:#">33 827 31 20</a></div>
-                  </div>
-                </li>
-                <li>
-                  <div class="unit unit-spacing-xs">
-                    <div class="unit-left"><span class="icon mdi mdi-map-marker"></span></div>
-                    <div class="unit-body"><a class="address" href="#">PGVR+FJ8, Rue GY-316, Dakar</a></div>
-                  </div>
-                </li>
-              </ul>
-              <ul class="list-share-2">
-                <li><a class="icon mdi mdi-facebook" href="#"></a></li>
-                <li><a class="icon mdi mdi-twitter" href="#"></a></li>
-                <li><a class="icon mdi mdi-instagram" href="#"></a></li>
-                <li><a class="icon mdi mdi-google-plus" href="#"></a></li>
-              </ul>
-            </div>
-            <div class="rd-navbar-main">
-              <!-- RD Navbar Nav-->
-              <ul class="rd-navbar-nav">
-                  <li class="rd-nav-item active"><a class="rd-nav-link" th:href="@{/site/home}">Accueil</a>
-                  </li>
-                  <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/about-us}">A propos de nous</a>
-                  </li>
-                  <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/contact}">Contacts</a>
-                  </li>
-                  <li class="rd-nav-item">
-                      <div class="rd-nav-link rd-navbar-fixed-element-1" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
-                          <div class="project-hamburger">
-                              <svg width="80px" height="80px"  fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <path d="M3 3H4.37144C5.31982 3 6.13781 3.66607 6.32996 4.59479L8.67004 15.9052C8.86219 16.8339 9.68018 17.5 10.6286 17.5H17.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                              <path d="M6.82422 7H19.6743C20.3386 7 20.8183 7.6359 20.6358 8.27472L19.6217 11.8242C19.2537 13.1121 18.0765 14 16.7371 14H8.27734" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                              <circle cx="16.5" cy="20.5" r="0.5" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                              <circle cx="0.5" cy="0.5" r="0.5" transform="matrix(1 0 0 -1 10 21)" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                              </svg>
+              <div class="rd-navbar-aside">
+                  <ul class="rd-navbar-contacts-2">
+                      <li>
+                          <div class="unit unit-spacing-xs">
+                              <div class="unit-left"><span class="icon mdi mdi-phone"></span></div>
+                              <div class="unit-body"><a class="phone" href="tel:#">33 827 31 20</a></div>
                           </div>
-                      </div>
-                  </li>
-                  
-              </ul>
-              <div th:if="${!isUserLogged}" class="rd-nav-item" >
-                <div class="bg-primary p-1" style="border-radius: 3px; font-weight: 500;">
-                    <a class="text-white" th:text="'Log In'" href="/login"></a>
-                </div>
+                      </li>
+                      <li>
+                          <div class="unit unit-spacing-xs">
+                              <div class="unit-left"><span class="icon mdi mdi-map-marker"></span></div>
+                              <div class="unit-body"><a class="address" href="#">PGVR+FJ8, Rue GY-316, Dakar</a></div>
+                          </div>
+                      </li>
+                  </ul>
+                  <ul class="list-share-2">
+                      <li><a class="icon mdi mdi-facebook" href="#"></a></li>
+                      <li><a class="icon mdi mdi-twitter" href="#"></a></li>
+                      <li><a class="icon mdi mdi-instagram" href="#"></a></li>
+                      <li><a class="icon mdi mdi-google-plus" href="#"></a></li>
+                  </ul>
               </div>
-              <div th:if="${isUserLogged}" class="rd-nav-item nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${username}"></a>
-                  <div class="dropdown-menu">
-                    <!-- <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a> -->
-                    <!-- <div class="dropdown-divider"></div> -->
-                    <a class="dropdown-item" href="#">Logout</a>
+              <div class="rd-navbar-main">
+                  <!-- RD Navbar Nav-->
+                  <ul class="rd-navbar-nav">
+                      <li class="rd-nav-item active"><a class="rd-nav-link" th:href="@{/site/home}">Accueil</a>
+                      </li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/about-us}">A propos de nous</a>
+                      </li>
+                      <li class="rd-nav-item"><a class="rd-nav-link" th:href="@{/site/contact}">Contacts</a>
+                      </li>
+                      <li class="rd-nav-item">
+                          <div class="rd-nav-link rd-navbar-fixed-element-1" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
+                              <div class="project-hamburger">
+                                  <svg width="80px" height="80px"  fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M3 3H4.37144C5.31982 3 6.13781 3.66607 6.32996 4.59479L8.67004 15.9052C8.86219 16.8339 9.68018 17.5 10.6286 17.5H17.5" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <path d="M6.82422 7H19.6743C20.3386 7 20.8183 7.6359 20.6358 8.27472L19.6217 11.8242C19.2537 13.1121 18.0765 14 16.7371 14H8.27734" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <circle cx="16.5" cy="20.5" r="0.5" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  <circle cx="0.5" cy="0.5" r="0.5" transform="matrix(1 0 0 -1 10 21)" fill="#000000" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg>
+                              </div>
+                          </div>
+                      </li>
+                      
+                  </ul>
+                  <div th:if="${!isUserLogged}" class="rd-nav-item" >
+                    <div class="bg-primary p-1" style="border-radius: 3px; font-weight: 500;">
+                        <a class="text-white" th:text="'Log In'" href="/login"></a>
+                    </div>
                   </div>
-              </di>
-            </div>
+                  <div th:if="${isUserLogged}" class="rd-nav-item nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" th:text="${'@' + username}"></a>
+                      <div class="dropdown-menu">
+                        <!-- <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a> -->
+                        <!-- <div class="dropdown-divider"></div> -->
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                      </div>
+                  </div>
+                  
+              </div>
           </div>
           
           <div class="rd-navbar-project">
-            <div class="rd-navbar-project-header">
-              <h5 class="rd-navbar-project-title">Gallery</h5>
-              <div class="rd-navbar-project-hamburger rd-navbar-project-hamburger-close" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
-                <div class="project-close"><span></span><span></span></div>
+              <div class="rd-navbar-project-header">
+                <h5 class="rd-navbar-project-title">My Cart</h5>
+                <div class="rd-navbar-project-hamburger rd-navbar-project-hamburger-close" data-multitoggle=".rd-navbar-inner" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate="data-multitoggle-isolate">
+                  <div class="project-close"><span></span><span></span></div>
+                </div>
               </div>
-            </div>
-            <div class="rd-navbar-project-content rd-navbar-content">
-              <div>
-
-                <div class="row gutters-20" data-lightgallery="group">
-                  <!--/////////////// LOOP DOWN ⤵ ////////////////-->
-                  <div th:each="lineItem : ${cartService.getCartById(sessionCart.getCartId).getLineItems()}" class="col-12 m-3">
-                    <!-- Thumbnail Creative-->
-                    <article class="thumbnail thumbnail-creative d-flex">
-                      <div class="col-4 mt-2">
-                        <a th:href="@{/site/images/project-1-1200x800-original.jpg}" data-lightgallery="item">
-                          <div class="thumbnail-creative-figure"><img th:src="@{/site/images/__${lineItem.getProduct().getImage()}__}" alt="" width="195" height="164"/>
+              <div class="rd-navbar-project-content rd-navbar-content">
+                <div>
+  
+                  <div class="row gutters-20" data-lightgallery="group">
+                    <!--/////////////// LOOP DOWN ⤵ ////////////////-->
+                    <div th:each="lineItem : ${cartService.getCartById(sessionCart.getCartId()).getLineItems()}" class="col-12 m-3">
+                      <!-- Thumbnail Creative-->
+                      <article class=" d-flex">
+                        <div class="col-4 mt-2">
+                          <!-- <a th:href="@{/site/images/project-1-1200x800-original.jpg}" data-lightgallery="item"> -->
+                            <div class="thumbnail-creative-figure"><img th:src="@{/site/images/__${lineItem.getProduct().getImage()}__}" alt="" width="195" height="164"/>
+                            </div>
+                            <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div>
+                          <!-- </a> -->
+                        </div>
+                        <div class="col-4 mt-2 mb-2">
+                          <p th:text="${lineItem.getProduct().getName()}"></p>
+                          <p th:text="'x' + ${lineItem.getQuantity()}"></p>
+                          <p th:text="'$' + ${lineItem.getProduct().getPrice()}"></p>
+                        </div>
+                        <div class="d-flex mr-3 col-4">
+                          <div class="justify-content-end" style="transform: rotate(90deg); position:relative; right: 35px;">
+                              <a class=" fa-close" style="color: red; " th:href="@{/carts/removeItem/__${sessionCart.getCartId()}__/__${lineItem.getProduct().getProductId()}__}">&nbsp;Remove</a>
                           </div>
-                          <div class="thumbnail-creative-caption"><span class="icon thumbnail-creative-icon linearicons-magnifier"></span></div>
-                        </a>
-                      </div>
-                      <div class="col-8 m-2">
-                        <p th:text="${lineItem.getProduct().getName()}"></p>
-                        <p th:text="'x' + ${lineItem.getQuantity()}"></p>
-                        <p th:text="'$' + ${lineItem.getProduct().getPrice()}"></p>
-                      </div>
-                    </article>
+                        </div>
+                      </article>
+                    </div>
+                    
+                    <!--/////////////// LOOP UP ⤴  ////////////////-->
                   </div>
+
                   
-                  <!--/////////////// LOOP UP ⤴  ////////////////-->
+                </div>
+                
+                <div th:if="${!(cartService.isCartEmpty(sessionCart.getCartId()))}" class="col-12">
+                  <button class="mt-3 btn btn-block btn-lg btn-primary" th:attr="onclick=|window.location.href='/carts/validate/' + '${sessionCart.getCartId()}'|" th:disabled="${!(isUserLogged) || cartService.isCartPending(sessionCart.getCartId())}">
+                      <p class="text-white" th:text="${sessionCart.getState() == 'ACTIVE' ? 'Order Ready!' : 'Validate Cart'}"></p>
+                  </button>
+                  <p th:if="${cartService.isCartPending(sessionCart.getCartId())}" class="bg-secondary mt-1 text-wrap text-black font-weight-bolder">Come Checkout At The Counter.</p>
+                  <button th:if="${cartService.isCartPending(sessionCart.getCartId())}" th:attr="onclick=|window.location.href='/carts/validate/' + '${sessionCart.getCartId()}'|" class="mt-1 btn btn-sm button-secondary">Click to cancel</b>
                 </div>
               </div>
             </div>
-          </div>
         </div>
-      </div>
     </nav>
   </div>
 </header>

@@ -17,9 +17,9 @@ public class Order {
 
 	private Boolean state;
 
-	// @OneToOne(fetch = FetchType.LAZY)
-	// @JoinColumn(name = "cartId", referencedColumnName="cartId")
-	// private Cart cart;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "cartId", referencedColumnName = "cartId")
+	private Cart cart;
 
 	public Order() {
 	}
