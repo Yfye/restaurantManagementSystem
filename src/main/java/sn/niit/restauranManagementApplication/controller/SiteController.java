@@ -60,6 +60,7 @@ public class SiteController {
 		Cart sessionCart = cartSetup();
 
 		menuModel.addObject("productService", productServiceImpl);
+		menuModel.addObject("categoryService", categoryServiceImpl);
 		menuModel.addObject("httpSession", httpSession);
 		menuModel.addObject("cartService", cartServiceImpl);
 		menuModel.addObject("sessionCart", sessionCart);
