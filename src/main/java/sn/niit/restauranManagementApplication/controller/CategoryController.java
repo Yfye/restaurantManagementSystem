@@ -18,8 +18,8 @@ import sn.niit.restauranManagementApplication.domain.Category;
 import sn.niit.restauranManagementApplication.service.CategoryService;
 
 @Controller
-@RequestMapping("/categorie")
-public class CategorieController {
+@RequestMapping("/category")
+public class CategoryController {
 	@Autowired
 	CategoryService catService;
 
