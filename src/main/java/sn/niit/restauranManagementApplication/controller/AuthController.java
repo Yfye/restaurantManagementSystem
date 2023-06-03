@@ -43,7 +43,7 @@ public class AuthController {
 
     @GetMapping("/user-login")
     public String user_login() {
-        return "user-login";
+        return "site/login";
     }
 
     // handler method to handle user registration form request
@@ -60,7 +60,7 @@ public class AuthController {
         // create model object to store form data
         UserDto user = new UserDto();
         model.addAttribute("user", user);
-        return "user-register";
+        return "site/user-register";
     }
 
     // handler method to handle user registration form submit request

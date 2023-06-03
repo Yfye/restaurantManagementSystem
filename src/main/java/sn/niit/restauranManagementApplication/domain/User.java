@@ -33,17 +33,13 @@ public class User {
 	public User(Long id, String prenom, String nom, String email, String password) {
 
 		this.prenom = prenom;
-		this.prenom = nom;
+		this.nom = nom;
 		this.email = email;
 		this.password = password;
 	}
 
 	public Long getUserId() {
 		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 
 	public String getPrenom() {
