@@ -110,6 +110,12 @@
   
                   <div class="row gutters-20" data-lightgallery="group">
                     <!--/////////////// LOOP DOWN ⤵ ////////////////-->
+
+                    <div class="col-12" th:if="${cartService.isCartEmpty(sessionCart.getCartId())}">
+                      <hr>
+                      <p class="mt-2 mb-2 fa-2x fa-exclamation-triangle">&nbsp;Your Cart is Empty.</p>
+                      <hr>
+                    </div>
                     <div th:each="lineItem : ${cartService.getCartById(sessionCart.getCartId()).getLineItems()}" class="col-12 m-3">
                       <!-- Thumbnail Creative-->
                       <article class=" d-flex">

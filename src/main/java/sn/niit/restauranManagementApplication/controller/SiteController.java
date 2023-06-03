@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import sn.niit.restauranManagementApplication.domain.Cart;
 import sn.niit.restauranManagementApplication.domain.Category;
 import sn.niit.restauranManagementApplication.domain.State;
+import sn.niit.restauranManagementApplication.dto.BookTableDto;
 import sn.niit.restauranManagementApplication.serviceImpl.CartServiceImpl;
 import sn.niit.restauranManagementApplication.serviceImpl.CategoryServiceImpl;
 import sn.niit.restauranManagementApplication.serviceImpl.ProductServiceImpl;
@@ -36,6 +37,8 @@ public class SiteController {
 	@GetMapping("/home")
 	public ModelAndView showHome() {
 		ModelAndView homeModel = new ModelAndView("site/home");
+		BookTableDto bookTableDto = new BookTableDto();
+		homeModel.addObject("bookTableDto", bookTableDto);
 		homeModel.addObject("categoryService", categoryServiceImpl);
 
 		Cart sessionCart = cartSetup();
