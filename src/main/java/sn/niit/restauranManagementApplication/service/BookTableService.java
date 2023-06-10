@@ -9,6 +9,8 @@ public interface BookTableService {
 
     BookTable saveBookingTable(BookTableDto bookTableDto);
 
+    List<BookTable> findBookingsByKeyword(String keyword);
+
     List<BookTable> getBookingTables();
 
     List<BookTable> getBookingTablesByEmail(String email);

@@ -22,15 +22,15 @@
 					        </tr>
 					      </thead>
 					      <tbody>
-					       		<tr th:each="categorie : ${categorieList}">
-					       			<td th:text="${categorie.nom}">Nom</td>
-					       			<td th:text="${categorie.description}">Description</td>
+					       		<tr th:each="category : ${categorieList}">
+					       			<td th:text="${category.getName()}">Nom</td>
+					       			<td th:text="${category.getDescription()}">Description</td>
 					       			<td>
-					       			     <a th:href="@{/categorie/edit/{id}(id=${categorie.id})}" class= "text-primary">
+					       			     <a th:href="@{/category/edit/{id}(id=${category.getCategoryId()})}" class= "text-primary">
 					       			         <i class = "fas fa-pencil-alt"> </i> 
 					       			     </a>
 					       			     
-					       			     <a th:href="@{/categorie/delete/{id}(id=${categorie.id})}" class= "text-danger"
+					       			     <a th:href="@{/category/delete/{id}(id=${category.getCategoryId()})}" class= "text-danger"
 					       			     onclick= "return confirm('Voulez vous vraiment supprimer?')">
 					       			     
 					       			         <i class = "fas fa-trash-alt"></i>

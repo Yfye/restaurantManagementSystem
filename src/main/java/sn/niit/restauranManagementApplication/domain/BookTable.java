@@ -27,6 +27,10 @@ public class BookTable implements Serializable {
     @NotEmpty
     private String message;
 
+    public BookTable() {
+
+    }
+
     public BookTable(String name, String email, String message) {
         this.name = name;
         this.email = email;
